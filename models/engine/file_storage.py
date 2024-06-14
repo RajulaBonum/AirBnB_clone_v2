@@ -15,7 +15,7 @@ class FileStorage:
             same_type = dict()
 
             for key, obj in self.__objects.items():
-                if obj.__class__ = cls:
+                if obj.__class__ == cls:
                     same_type[key] = obj
 
             return same_type
