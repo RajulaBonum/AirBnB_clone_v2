@@ -77,3 +77,21 @@ class DBStorage:
                 bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def get_data_from_table(self, cls, structure):
+        """Get the data from a MySQL Table
+        """
+
+        if type(structure) is dict:
+            query = self.__session.query(cls)
+
+            for _row in query.all():
+                key = "{}.{}".format(cls.__name__, _row.id)
+                structure[key] = _row
+
+            return structure
+
+    def close(self):
+        """Close the Session
+        """
+        self.__session.close()
