@@ -12,11 +12,11 @@ Base = declarative_base()
 class BaseModel:
     """A base class for all hbnb models"""
     """class attributes"""
-    id = Column(string(60), primary_key=True, nullable=False)
-    created_at = Column(DateTime, nullable=False, default=datime.utcnow())
+    id = Column(String(60), primary_key=True, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
-    def __init__(self, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
             from models import storage
@@ -52,11 +52,11 @@ class BaseModel:
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
 
-        if dictionary['_sa_instance_state']:
+        if '_sa_instance_state' in dictionary:
             dictionary.pop('_sa_instance_state')
 
         return dictionary
 
     def delete(self):
-         """Deletes the current instance by calling the method delete"""
-         storage.delete(self)
+        """Deletes the current instance by calling the method delete"""
+        storage.delete(self)

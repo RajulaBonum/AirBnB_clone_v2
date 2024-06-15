@@ -8,6 +8,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
+
 class State(BaseModel):
     """ State class """
     __tablename__ = "states"
@@ -19,7 +20,7 @@ class State(BaseModel):
     else:
         name = ''
 
-         @property
+        @property
         def cities(self):
             """Returns the list of `City` instances
             with `state_id` equals to the current

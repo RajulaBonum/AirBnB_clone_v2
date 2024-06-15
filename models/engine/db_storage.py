@@ -38,60 +38,42 @@ class DBStorage:
     def all(self, cls=None):
         """query on the current database session (self.__session)
         all objects depending of the class name (argument cls)"""
-
         entities = dict()
 
         if cls:
             return self.get_data_from_table(cls, entities)
 
         for entity in all_classes:
-            entities = self.get_data_from_table(eval(entity), enities)
+            entities = self.get_data_from_table(eval(entity), entities)
 
         return entities
 
-
     def new(self, obj):
-        """ add the object to the current database session (self.__session)"""
-         if obj:
+        """Add the object to the current
+        database session (self.__session)"""
+
+        if obj:
             self.__session.add(obj)
 
-
     def save(self):
-        """commit all changes of the current database session (self.__session)"""
+        """Commit all changes of the current
+        database session (self.__session)"""
+
         self.__session.commit()
 
-
     def delete(self, obj=None):
-        """delete from the current database session obj if not None"""
+        """Delete from the current database session obj if not None"""
+
         if obj is not None:
             self.__session.delete(obj)
 
-
     def reload(self):
-        """create all tables in the database (feature of SQLAlchemy)
+        """Create all tables in the database (feature of SQLAlchemy)
         (WARNING: all classes who inherit from Base must be imported
         before calling Base.metadata.create_all(engine))"""
 
-         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
+        Base.metadata.create_all(self.__engine)
+        session_factory = sessionmaker(
+                bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
-
-    def get_data_from_table(self, cls, structure):
-        """Get the data from a MySQL Table
-        """
-
-        if type(structure) is dict:
-            query = self.__session.query(cls)
-
-            for _row in query.all():
-                key = "{}.{}".format(cls.__name__, _row.id)
-                structure[key] = _row
-
-            return structure
-
-    def close(self):
-        """Close the Session
-        """
-        self.__session.close()
